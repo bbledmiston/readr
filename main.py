@@ -44,7 +44,7 @@ class MainHandler(webapp2.RequestHandler):
         city_value = self.request.get("city")
         genre_value = self.request.get("genre")
         #prepares data for the template
-        prof_order = {
+        prof_info = {
           "name_answer": name_value,
           "email_answer": email_value,
           "birthdate_answer": birthdate_value,
@@ -63,7 +63,7 @@ class MainHandler(webapp2.RequestHandler):
         send_to_database = prof_record.put()
         #generates final html page
         # and sends the response
-        self.response.write(profout_order_form.render(prof_order))
+        self.response.write(profout_order_form.render(prof_info))
 
 
 
