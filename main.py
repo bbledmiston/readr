@@ -18,20 +18,25 @@ class prof_form(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
-        template = jinja_environment.get_template('templates/prof_form.html')
+        prof_form_html = jinja_environment.get_template('templates/prof_form.html')
+        main_html = jinja_environment.get_template("templates/main.html")
         user = users.get_current_user()
         if user:
-            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
-                        (user.nickname(), users.create_logout_url('/')))
+            user_info = {
+                "user_nickname": user.nickname(),
+                "user_create_logout_url": users.create_logout_url('/')
+            }
+            self.response.write(prof_form_html.render(user_info))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
-        self.response.out.write('%s' % greeting)
+            user_login = {
+                "user_create_login_url": users.create_login_url('/')
+            }
+            self.response.out.write(main_html.render(user_login))
         #sends it to the client
-        self.response.write(template.render())
+
 
     def post(self):
-        template = jinja_environment.get_template('templates/profout_order_form.html')
+        profout_order_form_html = jinja_environment.get_template('templates/profout_order_form.html')
         name_value = self.request.get('name')
         email_value = self.request.get('email')
         birthdate_value = self.request.get('birthdate')
@@ -39,7 +44,7 @@ class MainHandler(webapp2.RequestHandler):
         city_value = self.request.get('city')
         genre_value = self.request.get('genre')
         #prepares data for the template
-        prof_form = {
+        prof_order = {
           'name_answer': name_value,
           'email_answer': email_value,
           'birthdate_answer': birthdate_value,
@@ -47,17 +52,17 @@ class MainHandler(webapp2.RequestHandler):
           'city_answer': city_value,
           'genre_answer': genre_value,
           }
-        prof_record = Form(
+        prof_record = prof_form(
             name = name_value,
             email = email_value,
             birthdate = birthdate_value,
             phone = phone_value,
             city = city_value,
-            genre = genre_value,
+            genre = genre_value
           )
         key = prof_record.put()
         #generates final html page
-        html_page = template.render(prof_form)
+        html_page = profout_order_form.html.render(prof_order)
         # and sends the response
         self.response.write(html_page)
 

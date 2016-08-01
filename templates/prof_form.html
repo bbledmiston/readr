@@ -6,7 +6,7 @@
 
   </head>
   <body>
-    <h1>Create Your Profile Page</h1>
+    <h1>Hello {{ user_nickname }}.</h1>
     <h2>Insert your information here:</h2>
 
     <form method=post>
@@ -16,7 +16,9 @@
         <p>Phone: <input type="text" name="phone"/></p>
         <p>City: <input type="text" name="city"/></p>
         <p>Genre: <input type="text" name="genre"/></p>
-        <button type="submit">Place Order</button>
+        <button type="submit">Create your profile</button>
     </form>
+    <hr>
+    <button href="{{ user_create_logout_url }}">Click to Log Out </button>
   </body>
 </html>
