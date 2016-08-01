@@ -18,25 +18,25 @@ class prof_form(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
-        prof_form_html = jinja_environment.get_template('templates/prof_form.html')
-        main_html = jinja_environment.get_template("templates/main.html")
+        prof_form = jinja_environment.get_template('templates/prof_form.html')
+        main = jinja_environment.get_template("templates/main.html")
         user = users.get_current_user()
         if user:
             user_info = {
                 "user_nickname": user.nickname(),
                 "user_create_logout_url": users.create_logout_url('/')
             }
-            self.response.write(prof_form_html.render(user_info))
+            self.response.write(prof_form.render(user_info))
         else:
             user_login = {
                 "user_create_login_url": users.create_login_url('/')
             }
-            self.response.out.write(main_html.render(user_login))
+            self.response.out.write(main.render(user_login))
         #sends it to the client
 
 
     def post(self):
-        profout_order_form_html = jinja_environment.get_template('templates/profout_order_form.html')
+        profout_order_form = jinja_environment.get_template('templates/profout_order_form.html')
         name_value = self.request.get('name')
         email_value = self.request.get('email')
         birthdate_value = self.request.get('birthdate')
@@ -62,9 +62,8 @@ class MainHandler(webapp2.RequestHandler):
           )
         key = prof_record.put()
         #generates final html page
-        html_page = profout_order_form.html.render(prof_order)
         # and sends the response
-        self.response.write(html_page)
+        self.response.write(profout_order_form.render(prof_order))
 
 
 
