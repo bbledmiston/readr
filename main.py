@@ -31,7 +31,7 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
     def post(self):
-        template = jinja_environment.get_template('templates/profout_order.html')
+        template = jinja_environment.get_template('templates/profout_order_form.html')
         name_value = self.request.get('name')
         email_value = self.request.get('email')
         birthdate_value = self.request.get('birthdate')
