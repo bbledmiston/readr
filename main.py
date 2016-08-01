@@ -7,7 +7,7 @@ import webapp2
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-class prof_form(ndb.Model):
+class UserInfo(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     birthdate = ndb.StringProperty(required=True)
@@ -52,7 +52,7 @@ class MainHandler(webapp2.RequestHandler):
           "city_answer": city_value,
           "genre_answer": genre_value,
           }
-        prof_record = prof_form(
+        prof_record = UserInfo  (
             name = name_value,
             email = email_value,
             birthdate = birthdate_value,
@@ -60,7 +60,7 @@ class MainHandler(webapp2.RequestHandler):
             city = city_value,
             genre = genre_value
           )
-        key = prof_record.put()
+        send_to_database = prof_record.put()
         #generates final html page
         # and sends the response
         self.response.write(profout_order_form.render(prof_order))
