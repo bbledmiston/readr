@@ -43,7 +43,7 @@ class MainHandler(webapp2.RequestHandler):
           'name_answer': name_value,
           'email_answer': email_value,
           'birthdate_answer': birthdate_value,
-          'phone_answer' phone_value,
+          'phone_answer': phone_value,
           'city_answer': city_value,
           'genre_answer': genre_value,
           }
