@@ -37,6 +37,7 @@ class MainHandler(webapp2.RequestHandler):
 
     def post(self):
         profout_order_form = jinja_environment.get_template("templates/profout_order_form.html")
+        user = users.get_current_user()
         name_value = self.request.get("name")
         email_value = self.request.get("email")
         birthdate_value = self.request.get("birthdate")
@@ -51,6 +52,9 @@ class MainHandler(webapp2.RequestHandler):
           "phone_answer": phone_value,
           "city_answer": city_value,
           "genre_answer": genre_value,
+          "user_nickname": user.nickname(),
+          "user_create_login_url": users.create_logout_url("/"),
+          "user_create_logout_url": users.create_logout_url("/")
           }
         prof_record = UserInfo  (
             name = name_value,
@@ -61,12 +65,35 @@ class MainHandler(webapp2.RequestHandler):
             genre = genre_value
           )
         send_to_database = prof_record.put()
+
         #generates final html page
         # and sends the response
         self.response.write(profout_order_form.render(prof_info))
 
+    def my_collection(self):
+        self.response.write
 
+class CollectionHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        main = jinja_environment.get_template("templates/main.html")
+        my_collection = jinja_environment.get_template("templates/my_collection.html")
+        user_info = {
+            "user_nickname": user.nickname(),
+            "user_create_login_url": users.create_logout_url("/"),
+            "user_create_logout_url": users.create_logout_url("/")
+        }
+        self.response.write(my_collection.render(user_info))
+
+class SearchHandler(webapp2.RequestHandler):
+    def get(self):
+        search_for_book = jinja_environment.get_template("templates/search_for_book.html")
+        self.response.write(search_for_book.render())
+
+    # def post(self):
+    #     my_collection = jinja_environment.get_template("templates/my_collection.html")
+    #     self.response.write()
 
 app = webapp2.WSGIApplication([
-  ("/", MainHandler),
+  ("/", MainHandler), ("/my_collection", CollectionHandler),("/search_for_book",SearchHandler),
 ], debug=True)

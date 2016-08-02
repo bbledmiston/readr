@@ -4,7 +4,7 @@
     <title>Readr</title>
   </head>
   <body>
-
+    <h1>Readr</h1>
     <h1>Welcome {{name_answer}}!</h1>
     <p>Email: {{email_answer}}</p>
     <p>Birthdate: {{birthdate_answer}}</p>
@@ -12,6 +12,13 @@
     <p>City: {{ city_answer }} </p>
     <p>Genre: {{ genre_answer }} </p>
 
+    <form action="/my_collection" method="get">
+      <input type="submit" name="my_collections" value="My Collections">
+    </form>
+    <form action="/search_for_book" method = "get">
+      <input type="submit" name="search_for_books" value="Search for Books">
+    </form>
+    <a href="{{ user_create_logout_url }}">Click to Log Out </a>
 
   </body>
 </html>
