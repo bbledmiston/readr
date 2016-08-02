@@ -15,6 +15,9 @@ class UserInfo(ndb.Model):
     city = ndb.StringProperty(required=True)
     genre = ndb.StringProperty(required=True)
 
+# class RequestBooks(ndb.Model):
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
@@ -88,11 +91,22 @@ class CollectionHandler(webapp2.RequestHandler):
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
         search_for_book = jinja_environment.get_template("templates/search_for_book.html")
+        user = users.get_current_user()
+        user_info = {
+            "user_nickname": user.nickname(),
+            "user_create_login_url": users.create_logout_url("/"),
+            "user_create_logout_url": users.create_logout_url("/")
+        }
         self.response.write(search_for_book.render())
 
-    # def post(self):
-    #     my_collection = jinja_environment.get_template("templates/my_collection.html")
-    #     self.response.write()
+    def post(self):
+        book_info = jinja_environment.get_template("templates/book_info.html")
+        user_info = {
+            "user_nickname": user.nickname(),
+            "user_create_login_url": users.create_logout_url("/"),
+            "user_create_logout_url": users.create_logout_url("/")
+        }
+        self.response.write(book_info.render(user_info))
 
 app = webapp2.WSGIApplication([
   ("/", MainHandler), ("/my_collection", CollectionHandler),("/search_for_book",SearchHandler),
