@@ -1,0 +1,13 @@
+.books {
+  border: 1px solid black;
+}
+
+.book {
+  float: left;
+  border: 1px dotted black;
+  padding: 20px;
+}
+
+.add_book_form {
+  display: none;
+}
