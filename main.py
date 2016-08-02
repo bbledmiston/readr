@@ -7,7 +7,7 @@ import webapp2
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-class prof_form(ndb.Model):
+class UserInfo(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     birthdate = ndb.StringProperty(required=True)
@@ -18,51 +18,82 @@ class prof_form(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
-        template = jinja_environment.get_template('templates/prof_form.html')
+        prof_form = jinja_environment.get_template("templates/prof_form.html")
+        main = jinja_environment.get_template("templates/main.html")
         user = users.get_current_user()
         if user:
-            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
-                        (user.nickname(), users.create_logout_url('/')))
+            user_info = {
+                "user_nickname": user.nickname(),
+                "user_create_logout_url": users.create_logout_url("/")
+            }
+            self.response.write(prof_form.render(user_info))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
-        self.response.out.write('%s' % greeting)
+            user_login = {
+                "user_create_login_url": users.create_login_url("/")
+            }
+            self.response.out.write(main.render(user_login))
         #sends it to the client
-        self.response.write(template.render())
+
 
     def post(self):
-        template = jinja_environment.get_template('templates/profout_order.html')
-        name_value = self.request.get('name')
-        email_value = self.request.get('email')
-        birthdate_value = self.request.get('birthdate')
-        phone_value = self.request.get('phone')
-        city_value = self.request.get('city')
-        genre_value = self.request.get('genre')
+        profout_order_form = jinja_environment.get_template("templates/profout_order_form.html")
+        user = users.get_current_user()
+        name_value = self.request.get("name")
+        email_value = self.request.get("email")
+        birthdate_value = self.request.get("birthdate")
+        phone_value = self.request.get("phone")
+        city_value = self.request.get("city")
+        genre_value = self.request.get("genre")
         #prepares data for the template
-        prof_form = {
-          'name_answer': name_value,
-          'email_answer': email_value,
-          'birthdate_answer': birthdate_value,
-          'phone_answer': phone_value,
-          'city_answer': city_value,
-          'genre_answer': genre_value,
+        prof_info = {
+          "name_answer": name_value,
+          "email_answer": email_value,
+          "birthdate_answer": birthdate_value,
+          "phone_answer": phone_value,
+          "city_answer": city_value,
+          "genre_answer": genre_value,
+          "user_nickname": user.nickname(),
+          "user_create_login_url": users.create_logout_url("/"),
+          "user_create_logout_url": users.create_logout_url("/")
           }
-        prof_record = Form(
+        prof_record = UserInfo  (
             name = name_value,
             email = email_value,
             birthdate = birthdate_value,
             phone = phone_value,
             city = city_value,
-            genre = genre_value,
+            genre = genre_value
           )
-        key = prof_record.put()
+        send_to_database = prof_record.put()
+
         #generates final html page
-        html_page = template.render(prof_form)
         # and sends the response
-        self.response.write(html_page)
+        self.response.write(profout_order_form.render(prof_info))
 
+    def my_collection(self):
+        self.response.write
 
+class CollectionHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        main = jinja_environment.get_template("templates/main.html")
+        my_collection = jinja_environment.get_template("templates/my_collection.html")
+        user_info = {
+            "user_nickname": user.nickname(),
+            "user_create_login_url": users.create_logout_url("/"),
+            "user_create_logout_url": users.create_logout_url("/")
+        }
+        self.response.write(my_collection.render(user_info))
+
+class SearchHandler(webapp2.RequestHandler):
+    def get(self):
+        search_for_book = jinja_environment.get_template("templates/search_for_book.html")
+        self.response.write(search_for_book.render())
+
+    # def post(self):
+    #     my_collection = jinja_environment.get_template("templates/my_collection.html")
+    #     self.response.write()
 
 app = webapp2.WSGIApplication([
-  ('/', MainHandler),
+  ("/", MainHandler), ("/my_collection", CollectionHandler),("/search_for_book",SearchHandler),
 ], debug=True)
