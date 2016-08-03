@@ -3,19 +3,19 @@
   <head>
     <title>Readr</title>
   <link href="../stylesheets/style.css" rel="stylesheet" type="text/css"/>
-
+<link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <h1>Hello {{ user_nickname }}.</h1>
-    <h2>Insert your information here:</h2>
+    <h1 class="prof_h1">Hello {{ user_nickname }}.</h1>
+    <h2 class="prof_h2">Insert your information here:</h2>
 
-    <form method=post>
-        <p>Name:<input type="text" name="name"/></p>
-        <p>Email:<input type="text" name="email"/></p>
-        <p>Birthdate:<input type="text" name="birthdate"/></p>
-        <p>Phone: <input type="text" name="phone"/></p>
-        <p>City: <input type="text" name="city"/></p>
-        <p>Genre: <input type="text" name="genre"/></p>
+    <form name="user_form" method=post>
+        <p>Name:  <input type="text" name="name"/></p>
+        <p>Email:  <input type="text" name="email"/></p>
+        <p>Birthdate:  <input type="text" name="birthdate"/></p>
+        <p>Phone:  <input type="text" name="phone"/></p>
+        <p>City:  <input type="text" name="city"/></p>
+        <p>Genre:  <input type="text" name="genre"/></p>
         <button type="submit">Create your profile</button>
     </form>
     <hr>
