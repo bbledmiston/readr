@@ -79,7 +79,7 @@ class MainHandler(webapp2.RequestHandler):
 
         #generates final html page
         # and sends the response
-        self.response.write(profout_order_form.render(prof_info)))
+        self.response.write(profout_order_form.render(prof_info))
 
 class CollectionHandler(webapp2.RequestHandler):
     def get(self):
