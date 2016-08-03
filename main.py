@@ -15,7 +15,7 @@ class UserInfo(ndb.Model):
     phone = ndb.StringProperty(required=True)
     city = ndb.StringProperty(required=True)
     genre = ndb.StringProperty(required=True)
-    my_collection = ndb.KeyProperty(required=True, kind="MyCollection")
+    my_collection = ndb.KeyProperty(MyCollection)
 
 class MyCollection(ndb.Model):
     title = ndb.StringProperty(required=True)
@@ -73,13 +73,14 @@ class MainHandler(webapp2.RequestHandler):
             birthdate = birthdate_value,
             phone = phone_value,
             city = city_value,
-            genre = genre_value
+            genre = genre_value,
+            my_collection = send
           )
         send_to_database = prof_record.put()
 
         #generates final html page
         # and sends the response
-        self.response.write(profout_order_form.render(prof_info)))
+        self.response.write(profout_order_form.render(prof_info))
 
 class CollectionHandler(webapp2.RequestHandler):
     def get(self):
@@ -110,6 +111,7 @@ class CollectionHandler(webapp2.RequestHandler):
             author = author_value,
             genre = genre_value,
             description = description_value,
+            my_collection_key =
         )
         send_book_to_collection = book_to_collection.put()
         jsonstring = self.request.body
