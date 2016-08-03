@@ -8,6 +8,12 @@ import json
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+class Book(ndb.Model):
+    title = ndb.StringProperty(required=True)
+    author = ndb.StringProperty(required=True)
+    genre = ndb.StringProperty(required=True)
+    description = ndb.StringProperty(required=True)
+
 class UserInfo(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
@@ -15,34 +21,30 @@ class UserInfo(ndb.Model):
     phone = ndb.StringProperty(required=True)
     city = ndb.StringProperty(required=True)
     genre = ndb.StringProperty(required=True)
-    my_collection = ndb.KeyProperty(MyCollection)
-
-class MyCollection(ndb.Model):
-    title = ndb.StringProperty(required=True)
-    author = ndb.StringProperty(required=True)
-    genre = ndb.StringProperty(required=True)
-    description = ndb.StringProperty(required=True)
-
-# class RequestBooks(ndb.Model):
-
+    my_collection = ndb.KeyProperty(repeated=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
+        profout_order_form = jinja_environment.get_template("templates/profout_order_form.html")
         prof_form = jinja_environment.get_template("templates/prof_form.html")
         main = jinja_environment.get_template("templates/main.html")
         user = users.get_current_user()
         if user:
+            current_user = UserInfo.get_by_id(user.user_id())
             user_info = {
                 "user_nickname": user.nickname(),
                 "user_create_logout_url": users.create_logout_url("/")
             }
-            self.response.write(prof_form.render(user_info))
+            if current_user:
+                self.response.write(profout_order_form.render(user_info))
+            else:
+                self.response.write(prof_form.render(user_info))
         else:
             user_login = {
                 "user_create_login_url": users.create_login_url("/")
             }
-            self.response.out.write(main.render(user_login))
+            self.response.write(main.render(user_login))
         #sends it to the client
 
 
@@ -67,6 +69,7 @@ class MainHandler(webapp2.RequestHandler):
           "user_create_login_url": users.create_logout_url("/"),
           "user_create_logout_url": users.create_logout_url("/")
           }
+
         prof_record = UserInfo  (
             name = name_value,
             email = email_value,
@@ -74,50 +77,92 @@ class MainHandler(webapp2.RequestHandler):
             phone = phone_value,
             city = city_value,
             genre = genre_value,
-            my_collection = send
+            id = user.user_id()
           )
-        send_to_database = prof_record.put()
+        print prof_record
+        prof_record.put()
 
-        #generates final html page
-        # and sends the response
         self.response.write(profout_order_form.render(prof_info))
 
 class CollectionHandler(webapp2.RequestHandler):
+    book_to_collection = []
+
     def get(self):
         user = users.get_current_user()
         main = jinja_environment.get_template("templates/main.html")
-        my_collection = jinja_environment.get_template("templates/my_collection.html")
-        user_collection = {
-            "user_nickname": user.nickname(),
-            "user_create_login_url": users.create_logout_url("/"),
-            "user_create_logout_url": users.create_logout_url("/")
-        }
-        self.response.write(my_collection.render(user_info))
+        my_collection_html = jinja_environment.get_template("templates/my_collection.html")
+        # user_collection = {
+        #     "user_nickname": user.nickname(),
+        #     "user_create_login_url": users.create_logout_url("/"),
+        #     "user_create_logout_url": users.create_logout_url("/")
+        # }
+
+        current_user = UserInfo.get_by_id(user.user_id())
+        books = []
+        for book_key in current_user.my_collection:
+            new_book = {
+                "book_name": book_key.get().title,
+                "book_author": book_key.get().author,
+                "book_description": book_key.get().description,
+                "book_genre": book_key.get().genre,            "user_nickname": user.nickname(),
+                "user_create_login_url": users.create_logout_url("/"), "user_create_logout_url": users.create_logout_url("/")
+                }
+            books.append(new_book)
+
+        books_to_html = {
+                "books": books,
+                }
+
+        self.response.write(my_collection_html.render(books_to_html))
 
     def post(self):
-        my_collection = jinja_environment.get_template("templates/my_collection.html")
+        user = users.get_current_user()
+        my_collection_html = jinja_environment.get_template("templates/my_collection.html")
+        temp_html = jinja_environment.get_template("templates/temp.html")
         title_value = self.request.get("title")
-        author_value = self.request.get("email")
+        author_value = self.request.get("author")
         genre_value = self.request.get("genre")
         description_value = self.request.get("description")
+
         book_details = {
             "title_answer": title_value,
             "author_answer": author_value,
             "genre_answer": genre_value,
             "description_answer": description_value,
         }
-        book_to_collection = MyCollection (
+        book_to_collection = Book (
             title = title_value,
             author = author_value,
             genre = genre_value,
             description = description_value,
-            my_collection_key =
         )
-        send_book_to_collection = book_to_collection.put()
-        jsonstring = self.request.body
-        jsonobject = json.loads(jsonstring)
-        self.response.headers["Content-Type"] = "application/json"
-        self.response.write(json.dumps(book_details))
+        print book_to_collection
+        book_key = book_to_collection.put()
+        current_user = UserInfo.get_by_id(user.user_id())
+        current_user.my_collection.append(book_key)
+        current_user.put()
+
+        # jsonstring = self.request.body
+        # jsonobject = json.loads(jsonstring)
+        # self.response.headers["Content-Type"] = "application/json"
+        # self.response.write(json.dumps(book_details))
+
+        books = []
+        for book_key in current_user.my_collection:
+            new_book = {
+                "book_name": book_key.get().title,
+                "book_author": book_key.get().author,
+                "book_description": book_key.get().description,
+                "book_genre": book_key.get().genre
+                }
+            books.append(new_book)
+
+        books_to_html = {
+                "books": books,
+                }
+
+        self.response.write(temp_html.render(books_to_html))
+
 
 
 class SearchHandler(webapp2.RequestHandler):
@@ -132,6 +177,7 @@ class SearchHandler(webapp2.RequestHandler):
         self.response.write(search_for_book.render())
 
     def post(self):
+        user = users.get_current_user()
         book_info = jinja_environment.get_template("templates/book_info.html")
         user_info = {
             "user_nickname": user.nickname(),
