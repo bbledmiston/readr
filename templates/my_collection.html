@@ -12,11 +12,16 @@
   <body>
     <h1>Welcome to My Collection Page</h1>
     <div class="books">
+
+      {% for book in books %}
       <div class="book">
-        <p>
-          Harry Potter
-        </p>
+        <p>{{book.book_name}}</p>
+        <p>{{book.book_author}}</p>
+        <p>{{book.book_genre}}</p>
+        <p>{{book.book_description}}</p>
       </div>
+      {% endfor %}
+
       <div class="book">
         <p>
           Hunger Games
@@ -37,7 +42,7 @@
     <button id="add_a_book" type="button">Add a book</button>
     <div class="add_book_form">
 
-    <form class="add_book" action="/my_collection" method="/">
+    <form class="add_book" method="post">
       <h3>Enter book information below and click submit:</h3>
       <input type="text" name="title" id="title" placeholder="Title">
       <input type="text" name="author" id="author" placeholder="Author">
