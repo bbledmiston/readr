@@ -2,19 +2,35 @@
 body {
   background-color: #008ae6;
 }
+.main_body{
+  background-image: url('http://cdn.pcwallart.com/images/plain-blue-background-wallpaper-3.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+
+
 
 h1 {
   line-height: 0px;
   font-family: sans-serif;
-  font-size: 70px;
+  font-size: 50px;
   color: white;
   text-shadow: 2px 2px 4px #005c99;
 }
+img {
+  position:fixed;
+  left:140px;
+  top: 20px;
 
+}
 h2 {
   font-family: 'Amatic SC', cursive;
+  font-weight: bold;
   line-height: 1px;
-  font-size: 200px;
+  font-size: 250px;
+  padding-bottom:0px;
   color: #ffff80;
 
 }
@@ -23,6 +39,20 @@ h2 {
   position: relative;
   float: left;
   cursor: pointer;
+}
+
+.link{
+  /*font-family: 'Slabo 27px', serif;
+  font-size: 20px;*/
+  font-family: 'Amatic SC', cursive;
+  font-size: 25px;
+  font-weight: bold;
+  border:3px solid;
+  border-color:#ffff80;
+  margin-left: 615px;
+  margin-right: 615px;
+  padding:7px;
+
 }
 
 .tint:before {
@@ -93,8 +123,9 @@ input[type="button"]:hover {
 p {
   line-height: 10px;
   font-family: 'Slabo 27px', serif;
-  font-size: 25px;
+  font-size: 20px;
   color: white;
+  padding: 0px;
 }
 
 a {
