@@ -3,16 +3,48 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="/stylesheets/my_collection.css" media="screen" title="no title" charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>
+    <script src="/javascript/main.js"></script>
+    <!--
+    <script type="text/javascript" href="/javascript/main.js"></script> -->
   </head>
   <body>
     <h1>Welcome to My Collection Page</h1>
     <div class="books">
       <div class="book">
+        <p>
+          Harry Potter
+        </p>
       </div>
       <div class="book">
+        <p>
+          Hunger Games
+        </p>
       </div>
       <div class="book">
+        <p>
+          Megan and the giant Ice Cream
+        </p>
       </div>
+    </div>
+
+    <!-- If the user clicks the add book button, than the form below pops up. When the user enters in all the information,
+    the page reloads with the new book.  -->
+    <br>
+    <br>
+    <br>
+    <button id="add_a_book" type="button">Add a book</button>
+    <div class="add_book_form">
+
+    <form class="add_book" action="/my_collection" method="/">
+      <h3>Enter book information below and click submit:</h3>
+      <input type="text" name="title" id="title" placeholder="Title">
+      <input type="text" name="author" id="author" placeholder="Author">
+      <input type="text" name="genre" id="genre" placeholder="Genre">
+      <input type="text" name="description" id="description" placeholder="Brief description">
+      <input type="submit" name="submit" value="Submit">
+    </form>
     </div>
   </body>
 </html>

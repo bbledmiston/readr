@@ -3,6 +3,7 @@ from google.appengine.ext import ndb
 import jinja2
 import os
 import webapp2
+import json
 
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -14,6 +15,13 @@ class UserInfo(ndb.Model):
     phone = ndb.StringProperty(required=True)
     city = ndb.StringProperty(required=True)
     genre = ndb.StringProperty(required=True)
+    my_collection = ndb.KeyProperty(required=True, kind="MyCollection")
+
+class MyCollection(ndb.Model):
+    title = ndb.StringProperty(required=True)
+    author = ndb.StringProperty(required=True)
+    genre = ndb.StringProperty(required=True)
+    description = ndb.StringProperty(required=True)
 
 # class RequestBooks(ndb.Model):
 
@@ -71,22 +79,44 @@ class MainHandler(webapp2.RequestHandler):
 
         #generates final html page
         # and sends the response
-        self.response.write(profout_order_form.render(prof_info))
-
-    def my_collection(self):
-        self.response.write
+        self.response.write(profout_order_form.render(prof_info)))
 
 class CollectionHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         main = jinja_environment.get_template("templates/main.html")
         my_collection = jinja_environment.get_template("templates/my_collection.html")
-        user_info = {
+        user_collection = {
             "user_nickname": user.nickname(),
             "user_create_login_url": users.create_logout_url("/"),
             "user_create_logout_url": users.create_logout_url("/")
         }
         self.response.write(my_collection.render(user_info))
+
+    def post(self):
+        my_collection = jinja_environment.get_template("templates/my_collection.html")
+        title_value = self.request.get("title")
+        author_value = self.request.get("email")
+        genre_value = self.request.get("genre")
+        description_value = self.request.get("description")
+        book_details = {
+            "title_answer": title_value,
+            "author_answer": author_value,
+            "genre_answer": genre_value,
+            "description_answer": description_value,
+        }
+        book_to_collection = MyCollection (
+            title = title_value,
+            author = author_value,
+            genre = genre_value,
+            description = description_value,
+        )
+        send_book_to_collection = book_to_collection.put()
+        jsonstring = self.request.body
+        jsonobject = json.loads(jsonstring)
+        self.response.headers["Content-Type"] = "application/json"
+        self.response.write(json.dumps(book_details))
+
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
