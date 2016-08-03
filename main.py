@@ -141,5 +141,7 @@ class SearchHandler(webapp2.RequestHandler):
         self.response.write(book_info.render(user_info))
 
 app = webapp2.WSGIApplication([
-  ("/", MainHandler), ("/my_collection", CollectionHandler),("/search_for_book",SearchHandler),
+  ("/", MainHandler),
+  ("/my_collection", CollectionHandler),
+  ("/search_for_book",SearchHandler),
 ], debug=True)
