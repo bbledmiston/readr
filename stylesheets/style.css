@@ -9,7 +9,42 @@ body {
   background-position: center;
 }
 
+.books {
+  border: 1px solid black;
+}
 
+.book {
+  float: left;
+  border: 1px dotted black;
+  padding: 20px;
+}
+
+.add_book_form {
+  display: none;
+}
+
+.requests {
+  float: right;
+}
+
+.approve_or_reject {
+  text-align: left;
+}
+
+.profile_info {
+  display: none;
+}
+
+.each_book {
+  border: 1px solid black;
+  float: left;
+  padding: 5px;
+  margin: 30px;
+  height: 350px;
+  width: 300px;
+  line-height: 20px;
+  overflow: scroll;
+}
 
 
 .main_body {
@@ -152,7 +187,7 @@ input[type="button"]:hover {
   height: 400px;
 } */
 
-p {
+.description_celine {
   line-height: 10px;
   font-family: 'Slabo 27px', serif;
   font-size: 20px;
@@ -160,7 +195,42 @@ p {
   padding: 0px;
 }
 
+.header {
+  float: left;
+}
+
 a {
 
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
 }
 /* main.html css end */

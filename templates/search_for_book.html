@@ -7,9 +7,26 @@
   </head>
   <body>
     <h1> Search for that book you want to love.</h1>
-    <form action="/request_books" method="post">
-      <input type="text" name="search" placeholder="Search...">
-      <input type="submit" name="search" placeholder="Search...">
+    <form method="post">
+      <input type="text" name="text_to_search" placeholder="Search by title, author, or genre">
+      <input type="submit">
     </form>
+    <div class="list_of_books">
+      {% for book in list_of_books %}
+      <div class="each_book">
+        <p>{{book.book_name}}</p>
+        <p>{{book.book_author}}</p>
+        <p>{{book.book_genre}}</p>
+        <p>{{book.book_description}}</p>
+        <p>{{book.book_id}}</p>
+        <p>{{book.book_owner_id}}</p>
+        <form class="more_book_info" action="/save_request" method="post">
+          <input type="text" name="book_id" value={{book.book_id}}>
+          <input type="text" name="book_owner_id" value={{book.book_owner_id}}>
+          <input type="submit" name="more_info" value="Request This Book">
+        </form>
+      </div>
+      {% endfor %}
+    </div>
   </body>
 </html>
