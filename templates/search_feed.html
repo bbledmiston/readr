@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../stylesheets/style.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body class="main_body">
+    <div class="navigation">
+
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/my_collection">My Collection</a></li>
+        <li><a href="/search_feed">Search</a></li>
+        <li><a href="mamadou">Log Out</a></li>
+      </ul>
+      <h1> readr </h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
+    </div>
+
+    <br>
+
+    <center><left><h1> Search for a book in readr </h1></left></center>
+
+    <div class="clearfix search_style">
+      <form method="post">
+        <input type="text" id="text_to_search" name="text_to_search" placeholder="Enter a title, author, or genre">
+        <input type="submit" id="search_for_book" value="Search">
+      </form>
+    </div>
+
+    <div class="books">
+      {% for book in list_of_books %}
+      <div class="book">
+        <p>{{book.book_name}}</p>
+        <p>{{book.book_author}}</p>
+        <p>{{book.book_genre}}</p>
+        <p>{{book.book_description}}</p>
+        <!-- <p>{{book.book_id}}</p>
+        <p>{{book.book_owner_id}}</p> -->
+        <form class="more_book_info" action="/save_request" method="post">
+          <div class="important_id">
+            <input type="text" name="book_id" value={{book.book_id}}>
+            <input type="text" name="book_owner_id" value={{book.book_owner_id}}>
+          </div>
+          <input class="insert_info_button" id="request_book_button" type="submit" name="more_info" value="Request This Book">
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+
+  </body>
+</html>

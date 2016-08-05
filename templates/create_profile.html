@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>readr</title>
+<link href="../stylesheets/style.css" rel="stylesheet" type="text/css"/>
+<link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+</head>
+  <body class="main_body">
+    <div class="navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/my_collection">My Collection</a></li>
+        <li><a href="/search_feed">Search</a></li>
+        <li><a href="{{user_create_logout_url}}">Logout</a></li>
+      </ul>
+      <h1>readr</h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
+    </div>
+
+    <div class="sign_up_box">
+    <center>
+    <h1 class="prof_h1">Hello {{ user_nickname }}.</h1>
+    <h2 class="prof_h2">Please insert your information here:</h2>
+    <div class="create_prof">
+    <form name="user_form" action="/" method=post>
+      <p><label>Name:</label> <input type="text" name="name"/></p>
+      <p><label>Email: </label>  <input type="text" name="email"/></p>
+      <p><label>Birthdate: </label> <input type="text" name="birthdate"/></p>
+      <p><label>Phone: </label> <input type="text" name="phone"/></p>
+      <p><label>City: </label> <input type="text" name="city"/></p>
+      <p><label>Genre: </label> <input type="text" name="genre"/></p>
+      <input id="submit_info" class="insert_info_button" type="submit" value="Create your profile"/>
+    </form>
+  </div>
+
+  </center>
+  </div>
+    <!-- Brittany: Make this link look like a button -->
+    <div class="footer">
+
+</div>
+  </body>
+</html>

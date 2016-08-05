@@ -34,14 +34,19 @@ class UserInfo(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #get function reads the file and puts it into the template
-        profout_order_form = jinja_environment.get_template("templates/profout_order_form.html")
-        prof_form = jinja_environment.get_template("templates/prof_form.html")
-        main = jinja_environment.get_template("templates/main.html")
+        main_html = jinja_environment.get_template("templates/main.html")
+        create_profile = jinja_environment.get_template("templates/create_profile.html")
+        main = jinja_environment.get_template("templates/home.html")
         user = users.get_current_user()
 
         if user:
 
             current_user = UserInfo.query().filter(UserInfo.user_id==user.user_id()).get()
+
+            user_info = {
+                "user_nickname": user.nickname(),
+                "user_create_logout_url": users.create_logout_url("/")
+                }
 
             if current_user:
 
@@ -55,13 +60,9 @@ class MainHandler(webapp2.RequestHandler):
                     }
                     list_of_requests.append(every_request)
 
-                self.response.write(list_of_requests)
-                # current_user = UserInfo.query().filter(UserInfo.user_id==user.user_id()).get()
-                user_info = {
-                    "user_nickname": user.nickname(),
-                    "user_create_logout_url": users.create_logout_url("/"),
-                    "user_requests": list_of_requests
-                }
+                # self.response.write(list_of_requests)
+
+                user_info["user_requests"] = list_of_requests
 
                 user_details = {
                           "user_name": current_user.name,
@@ -72,9 +73,9 @@ class MainHandler(webapp2.RequestHandler):
                           "user_fav_genre": current_user.genre,
                           }
                 user_info["user_details"] = user_details
-                self.response.write(profout_order_form.render(user_info))
+                self.response.write(main_html.render(user_info))
             else:
-                self.response.write(prof_form.render(user_info))
+                self.response.write(create_profile.render(user_info))
         else:
             user_login = {
                 "user_create_login_url": users.create_login_url("/")
@@ -84,7 +85,7 @@ class MainHandler(webapp2.RequestHandler):
 
 
     def post(self):
-        profout_order_form = jinja_environment.get_template("templates/profout_order_form.html")
+        main_html = jinja_environment.get_template("templates/main.html")
         user = users.get_current_user()
         name_value = self.request.get("name")
         email_value = self.request.get("email")
@@ -119,17 +120,15 @@ class MainHandler(webapp2.RequestHandler):
           )
         print prof_record
         prof_record.put()
-        info = self.request.body
-        self.response.write(profout_order_form.render(prof_info))
+        self.response.write(main_html.render(prof_info))
 
 class CollectionHandler(webapp2.RequestHandler):
     book_to_collection = []
 
     def get(self):
         user = users.get_current_user()
-        main = jinja_environment.get_template("templates/main.html")
+        main = jinja_environment.get_template("templates/home.html")
         my_collection_html = jinja_environment.get_template("templates/my_collection.html")
-        header_html = jinja_environment.get_template("templates/header.html")
         current_user = UserInfo.query().filter(UserInfo.user_id==user.user_id()).get()
         data_sent = self.request.body
 
@@ -182,11 +181,6 @@ class CollectionHandler(webapp2.RequestHandler):
         current_user.my_collection.append(book_key)
         current_user.put()
 
-        # jsonstring = self.request.body
-        # jsonobject = json.loads(jsonstring)
-        # self.response.headers["Content-Type"] = "application/json"
-        # self.response.write(json.dumps(book_details))
-
         books = []
         for book_key in current_user.my_collection:
             new_book = {
@@ -209,7 +203,7 @@ class CollectionHandler(webapp2.RequestHandler):
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
-        search_for_book = jinja_environment.get_template("templates/search_for_book.html")
+        search_feed = jinja_environment.get_template("templates/search_feed.html")
         user = users.get_current_user()
         user_info = {
             "user_nickname": user.nickname(),
@@ -237,12 +231,11 @@ class SearchHandler(webapp2.RequestHandler):
             "list_of_books": list_of_books
         }
 
-        self.response.write(search_for_book.render(list_of_books_to_html))
+        self.response.write(search_feed.render(list_of_books_to_html))
 
     def post(self):
         user = users.get_current_user()
-        book_info = jinja_environment.get_template("templates/book_info.html")
-        books_searched_for = jinja_environment.get_template("templates/books_searched_for.html")
+        search_feed = jinja_environment.get_template("templates/search_feed.html")
         user_info = {
             "user_nickname": user.nickname(),
             "user_create_login_url": users.create_logout_url("/"),
@@ -253,7 +246,6 @@ class SearchHandler(webapp2.RequestHandler):
         book_query0 = book_query.filter(Book.title==text_to_search).fetch()
         book_query1 = book_query.filter(Book.author==text_to_search).fetch()
         book_query2 = book_query.filter(Book.genre==text_to_search).fetch()
-
         books_found = []
 
         for book0 in book_query0:
@@ -288,8 +280,11 @@ class SearchHandler(webapp2.RequestHandler):
         books_found_html = {
             "books_found": books_found
         }
-        self.response.write("<hr>")
-        self.response.write(books_searched_for.render(books_found_html))
+
+        info = self.request.body
+
+        books_found_html["data"] = info
+        self.response.write(search_feed.render(books_found_html))
 
         #Now do requests
 
@@ -362,7 +357,7 @@ class Reject(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
   ("/", MainHandler),
   ("/my_collection", CollectionHandler),
-  ("/search_for_book",SearchHandler),
+  ("/search_feed",SearchHandler),
   ("/save_request", SaveRequest),
   ("/approve", Approve),
   ("/reject", Reject)

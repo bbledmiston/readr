@@ -4,104 +4,63 @@
   <link href="../stylesheets/style.css" rel="stylesheet" type="text/css"/>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
-  <title></title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>
+  <script src="/javascript/main.js"></script>
 </head>
 <body class="main_body">
-  <<<<<<< HEAD
 
+  <div class="navigation">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/my_collection">My Collection</a></li>
+      <li><a href="/search_feed">Search</a></li>
+      <li><a href="mamadou">Log Out</a></li>
+    </ul>
+    <h1>readr</h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
+  </div>
 
-  <h1 class="main_readr"> readr </h1>
-  =======
-
-
-  <h1> readr </h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
-
-  >>>>>>> 6883c6a11dfc1df014875e26e1ab0f1810b29021
   <br>
-  <h2 class="main_welcome"> WELCOME </h2>
+  <div class="profout_box">
+    <center>
+      <h1 class="profout_h1">Welcome {{user_details.user_name}}!</h1>
+      <button id="profile_info_button" class="insert_info_button" type="button">My Profile Information</button>
+      <div class="profile_info">
+        <p><label> Email: {{ user_details.user_email }}</label></p>
+        <p><label> Birthdate: {{ user_details.user_birthdate }}</label></p>
+        <p><label> Phone: {{ user_details.user_number }} </label></p>
+        <p><label> City: {{ user_details.user_city }} </label></p>
+        <p><label> Favorite genre: {{ user_details.user_fav_genre }} </label></p>
+      </div>
 
-  <!-- <div class="book_image">
-  <figure class="tint">
-  <img src="https://static.pexels.com/photos/48126/books-education-school-literature-48126.jpeg" alt="Example" width="400" height="260">
-</figure>
-</div> -->
-<div class="description_celine">
+      <div class="requests">
+        <h3> Current Requests </h3>
+        {% for request in user_requests %}
+        <p>Request x: You have a request from {{request.this_owner_id}} for your book: {{request.this_book_id}}</p>
+        <div class=approve>
+          <form class="approve_button" action="/approve" method="post">
+            <input type="text" name="owner_id" value="{{request.this_owner_id}}">
+            <input type="submit" value="Approve">
+          </form>
+        </div>
+        <div class="reject">
+          <form class="reject_button" action="/reject" method="post">
+            <input type="text" name="book_id" value="{{request.this_book_id}}">
+            <input type="submit" value="Reject">
+          </form>
+        </div>
+        {% endfor %}
+      </div>
 
+      <div class="button_form">
+        <form action="/my_collection" method = "get">
+          <input class="insert_info_button" type="submit" name="my_collections" value="My Collections">
+        </form>
+        <form action="/search_feed" method = "get">
+          <input class="insert_info_button" type="submit" name="search_for_books" value="Search for Books">
+        </form>
+      </div>
 
-<p>
-  Connecting book lovers:
+    </center>
 
-</p>
-<p>
-  The only place where you can exchange the books you love
-
-  <<<<<<< HEAD
-</p>
-
-<p> for the books you want to love. </p>
-
-</div>
-<a href="{{user_create_login_url}}">Click to Login</a>
-
-=======
-</p> </center>
-<center>  <p> for the books you want to love. </p></center>
-<br>
-<div class = "link">
-  <center> <a href="{{user_create_login_url}}">Click to Login</a> </center>
-</div>
-<br>
-<!-- <figure class="tint">
-<img src="https://static.pexels.com/photos/48126/books-education-school-literature-48126.jpeg" alt="Example" width="400" height="260">
-</figure> -->
->>>>>>> 6883c6a11dfc1df014875e26e1ab0f1810b29021
-
-</body>
-</html>
-
-<!--
-<style>
-
-
-h1 {
-line-height: 2px;
-font-family: sans-serif;
-font-size: 80px;
-color: white;
-text-shadow: 2px 2px 4px #005c99;
-}
-
-.readr_box {
-border: 1px solid #005c99;
-background-color: #008ae6;
-margin-left: auto;
-margin-right: auto;
-width: 900px;
-}
-
-.else_box {
-border: 1px solid #005c99;
-background-color: #008ae6;
-margin-left: auto;
-margin-right: auto;
-width: 800px;
-height: 400px;
-}
-
-p {
-background-color: #008ae6;
-font-family: sans-serif;
-font-size: 40px;
-color: white;
-}
-
-a {
-
-}
-
-
-
-
-
-</style>
--->
+  </body>
+  </html>

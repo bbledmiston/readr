@@ -1,5 +1,5 @@
-application: readr
-version: 1
+application: readr-1470406822403
+version: v1
 runtime: python27
 api_version: 1
 threadsafe: yes

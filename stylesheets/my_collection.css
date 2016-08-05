@@ -1,13 +1,167 @@
-.books {
-  border: 1px solid black;
+.main_body{
+  background-image: url('http://cdn.pcwallart.com/images/plain-blue-background-wallpaper-3.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+h1 {
+  line-height: 0px;
+  font-family: sans-serif;
+  font-size: 50px;
+  color: white;
+  text-shadow: 2px 2px 4px #005c99;
+}
+img {
+  position:relative;;
+  left:130px;
+  top: -45px;
+}
+p{
+  font-family: 'Amatic SC', cursive;
+  font-weight: bold;
+  line-height: 1px;
+  font-size: 100px;
+  padding-bottom:0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom:80px;
+  color: #ffff80;
+}
+.book_style{
+  font-family: 'Amatic SC', cursive;
+  font-weight: bold;
+  line-height: 1px;
+  font-size: 50px;
+  color: #ffff80;
+  margin-top:20px;
+  margin-bottom: 40px;
+
+}
+.button {
+  text-align: center;
+  font-family: 'Amatic SC', cursive;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #008ae6;
+  border: 3px solid #ffff80;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 35px;
+  padding: 12px 32px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+
 }
 
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content:'>>';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+h3 {
+  line-height: 10px;
+  font-family: 'Slabo 27px', serif;
+  font-size: 23px;
+  color: white;
+  padding: 0px;
+}
+input[type=text]{
+  font-family: 'Slabo 27px', serif;
+  width:50%;
+  padding:12px
+}
+input[type=submit]{
+  text-align: center;
+  font-family: 'Amatic SC', cursive;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #008ae6;
+  border: 3px solid #ffff80;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 25px;
+  padding: 8px 12px;
+  width: 80px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.books{
+  text-align: center;
+  margin:auto;
+  width: 1065px;
+}
 .book {
   float: left;
   border: 1px dotted black;
   padding: 20px;
+  height:250px;
+  width: 200px;
+  margin:10px;
+  font-size: 91px;
 }
 
+.form_style{
+  text-align: center;
+  margin:auto;
+  width:500px;
+}
 .add_book_form {
   display: none;
+  text-align: center;
+  margin: auto;
+  width: 500px;
+}
+
+ul {
+    float:right;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 0px 14px;
+    text-decoration: none;
+    font-family: 'Slabo 27px', serif;
+    font-size: 23px;
+}
+
+li a:hover {
+    background-color:#008ae6;
 }
