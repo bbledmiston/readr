@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head><link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
     <link href="../stylesheets/style.css" rel="stylesheet" type="text/css"/>
-    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>
-    <script src="/javascript/main.js"></script>
     <meta charset="utf-8">
     <title></title>
   </head>
@@ -20,8 +17,16 @@
       </ul>
       <h1> readr </h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height="36" width="33">
     </div>
+
+    <hr>
+
+      <p class="available_books">Your request was approved! <a class="another_book" href="/my_collection">Requst Another Book</a></p>
+
+    <hr>
+
     <div class="content">
-    <h1 class="profout_h1" >Search for a book in readr</h1>
+      <br>
+    <h1>Search for another book in readr!</h1>
 
     <div class="clearfix search_style">
       <form method="post">
@@ -31,13 +36,12 @@
     </div>
 
     <div class="books">
-      <p class="available_books"> Below are the books that are currently available </p>
       {% for book in list_of_books %}
       <div class="book">
         <div class="each_book">
-          <p class="book_name"><b>{{book.book_name}}</b></p>
-          <p class="book_author">By: <i>{{book.book_author}}</i></p>
-          <p class="book_genre">| {{book.book_genre}} |</p>
+          <p class="book_name">{{book.book_name}}</p>
+          <p class="book_author" >{{book.book_author}}</p>
+          <p class="book_genre">{{book.book_genre}}</p>
           <p class="book_dec">{{book.book_description}}</p>
         </div>
         <!-- <p>{{book.book_id}}</p>

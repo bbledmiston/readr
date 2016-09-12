@@ -154,7 +154,6 @@ class CollectionHandler(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         my_collection_html = jinja_environment.get_template("templates/my_collection.html")
-        temp_html = jinja_environment.get_template("templates/temp.html")
 
         current_user = UserInfo.query().filter(UserInfo.user_id==user.user_id()).get()
 
@@ -290,6 +289,7 @@ class SearchHandler(webapp2.RequestHandler):
 
 class SaveRequest(webapp2.RequestHandler):
     def post(self):
+        requested_html = jinja_environment.get_template("templates/requested.html")
         user = users.get_current_user()
         book_id_value = self.request.get("book_id")
         book_owner_id_value = self.request.get("book_owner_id")
@@ -309,12 +309,12 @@ class SaveRequest(webapp2.RequestHandler):
         print book_request
         book_request_key = book_request.put()
 
-        self.response.write("It worked!")
+        self.response.write(requested_html.render())
 
 class Approve(webapp2.RequestHandler):
 
     def post(self):
-
+        requested_html = jinja_environment.get_template("templates/requested.html")
         user = users.get_current_user()
         current_user = UserInfo.query().filter(UserInfo.user_id==user.user_id()).get()
 
@@ -330,12 +330,12 @@ class Approve(webapp2.RequestHandler):
             sender=current_user.email,
             subject="Your request has been approved."
             )
-        approval.to = "Mamadou Diallo <" + book_owner.email   + ">"
+        approval.to = "Mamadou Diallo <" + book_owner.email + ">"
         approval.body = "Dear Mamadou Outlook: Thanks for requesting the book _book on _date. Where and when would you like to meet up so we can exchange books. I'd like your book _book in exchange. See you soon!"
 
         approval.send()
 
-        self.response.write("Email Sent!")
+        self.response.write("Email Was Sent")
 
 
 

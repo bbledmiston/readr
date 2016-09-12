@@ -14,7 +14,7 @@
       <li><a href="/">Home</a></li>
       <li><a href="/my_collection">My Collection</a></li>
       <li><a href="/search_feed">Search</a></li>
-      <li><a href="mamadou">Log Out</a></li>
+      <li><a href="{{user_create_logout_url}}">Logout</a></li>
     </ul>
     <h1>readr</h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
   </div>
@@ -32,25 +32,6 @@
         <p><label> Favorite genre: {{ user_details.user_fav_genre }} </label></p>
       </div>
 
-      <div class="requests">
-        <h3> Current Requests </h3>
-        {% for request in user_requests %}
-        <p>Request x: You have a request from {{request.this_owner_id}} for your book: {{request.this_book_id}}</p>
-        <div class=approve>
-          <form class="approve_button" action="/approve" method="post">
-            <input type="text" name="owner_id" value="{{request.this_owner_id}}">
-            <input type="submit" value="Approve">
-          </form>
-        </div>
-        <div class="reject">
-          <form class="reject_button" action="/reject" method="post">
-            <input type="text" name="book_id" value="{{request.this_book_id}}">
-            <input type="submit" value="Reject">
-          </form>
-        </div>
-        {% endfor %}
-      </div>
-
       <div class="button_form">
         <form action="/my_collection" method = "get">
           <input class="insert_info_button" type="submit" name="my_collections" value="My Collections">
@@ -58,6 +39,27 @@
         <form action="/search_feed" method = "get">
           <input class="insert_info_button" type="submit" name="search_for_books" value="Search for Books">
         </form>
+      </div>
+
+      <div class="requests">
+        <h3 class="profout_h1" > Current Requests </h3>
+        {% for request in user_requests %}
+        <p>Request x: You have a request from <i>{{request.this_owner_id}}</i> for your book: <i>{{request.this_book_id}}</i></p>
+        <div class="approve_rejec">
+        <div class=approve>
+          <form class="approve_button" action="/approve" method="post">
+            <input type="text" class="approve_reject" name="owner_id" value="{{request.this_owner_id}}">
+            <input class="insert_info_button" type="submit" value="Approve">
+          </form>
+        </div>
+        <div class="reject">
+          <form class="reject_button" action="/reject" method="post">
+            <input type="text" class="approve_reject" name="book_id" value="{{request.this_book_id}}">
+            <input class="insert_info_button" type="submit" value="Reject">
+          </form>
+        </div>
+        </div>
+        {% endfor %}
       </div>
 
     </center>

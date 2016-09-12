@@ -14,19 +14,19 @@
   <li><a href="/">Home</a></li>
   <li><a href="/my_collection">My Collection</a></li>
   <li><a href="/search_feed">Search</a></li>
-  <li><a href="mamadou">Log Out</a></li>
+  <li><a href="{{user_create_logout_url}}">Logout</a></li>
   </ul>
     <h1> readr </h1><img src ="http://www.clker.com/cliparts/e/8/0/e/1206580017363707510barretr_Book.svg.hi.png" height = "36" width = "33">
-    <center><p>My Collections Page</p></center>
+    <center><p class="prof_h1">My Collections Page</p></center>
     <hr>
     <div class="clearfix">
     <div class = "books">
       {% for book in books %}
       <div class="book">
-        <p class="book_style">{{book.book_name}}</p>
-        <p class="book_style">{{book.book_author}}</p>
-        <p class="book_style">{{book.book_genre}}</p>
-        <p class="book_style">{{book.book_description}}</p>
+        <p class="book_name">{{book.book_name}}</p>
+        <p class="book_author">{{book.book_author}}</p>
+        <p class="book_genre">{{book.book_genre}}</p>
+        <p class="book_dec">{{book.book_description}}</p>
       </div>
       {% endfor %}
     </div>
